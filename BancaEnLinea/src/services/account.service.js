@@ -1,7 +1,7 @@
 import { apiGet, apiPost, apiPatch } from './http.service'
 
 export const getMyAccounts = () => {
-  return apiGet('/api/accounts/my')
+  return apiGet('/allcuentas')
 }
 
 export const getAllAccounts = () => {
