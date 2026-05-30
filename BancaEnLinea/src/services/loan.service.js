@@ -1,46 +1,45 @@
-import { apiGet, apiPost } from './http.service'
+import { apiGet, apiPost, apiPut } from './http.service'
 
 export const createLoanRequest = (loanRequest) => {
-  return apiPost('/api/loan-requests', loanRequest)
+  return apiPost('/createsolicitudprestamo', loanRequest)
 }
 
 export const getMyLoanRequests = () => {
-  return apiGet('/api/loan-requests/my')
+  return apiGet('/allsolicitudprestamos')
 }
 
-export const getLoanRequests = (status = '') => {
-  const query = status ? `?status=${status}` : ''
-  return apiGet(`/api/loan-requests${query}`)
+export const getLoanRequests = () => {
+  return apiGet('/allsolicitudprestamos')
 }
 
 export const getLoanRequestById = (id) => {
-  return apiGet(`/api/loan-requests/${id}`)
+  return apiGet(`/solicitudprestamo/${id}`)
 }
 
-export const approveLoanRequest = (id, data) => {
-  return apiPost(`/api/loan-requests/${id}/approve`, data)
+export const approveLoanRequest = (id) => {
+  return apiPut(`/togglesolicitudprestamo/${id}`)
 }
 
-export const rejectLoanRequest = (id, observaciones) => {
-  return apiPost(`/api/loan-requests/${id}/reject`, { observaciones })
+export const rejectLoanRequest = (id) => {
+  return apiPut(`/togglesolicitudprestamo/${id}`)
 }
 
 export const getMyLoans = () => {
-  return apiGet('/api/loans/my')
+  return apiGet('/allprestamos')
 }
 
 export const getAllLoans = () => {
-  return apiGet('/api/loans')
+  return apiGet('/allprestamos')
 }
 
 export const getLoanById = (id) => {
-  return apiGet(`/api/loans/${id}`)
+  return apiGet(`/prestamo/${id}`)
 }
 
-export const getLoanInstallments = (id) => {
-  return apiGet(`/api/loans/${id}/installments`)
+export const getLoanInstallments = () => {
+  throw new Error('No hay endpoint backend definido para cuotas de préstamo')
 }
 
-export const disburseLoan = (id, data) => {
-  return apiPost(`/api/loans/${id}/disburse`, data)
+export const disburseLoan = () => {
+  throw new Error('No hay endpoint backend definido para desembolso de préstamos')
 }

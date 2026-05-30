@@ -1,25 +1,25 @@
-import { apiGet, apiPost, apiPut, apiPatch } from './http.service'
+import { apiGet, apiPost, apiPut } from './http.service'
 
 export const getUsers = () => {
-  return apiGet('/api/users')
+  return apiGet('/allusers')
 }
 
 export const getUserById = (id) => {
-  return apiGet(`/api/users/${id}`)
+  return apiGet(`/user/${id}`)
 }
 
 export const createUser = (user) => {
-  return apiPost('/api/users', user)
+  return apiPost('/createuser', user)
 }
 
 export const updateUser = (id, user) => {
-  return apiPut(`/api/users/${id}`, user)
+  return apiPut(`/edituser/${id}`, user)
 }
 
-export const updateUserStatus = (id, status) => {
-  return apiPatch(`/api/users/${id}/status`, { status })
+export const updateUserStatus = (id) => {
+  return apiPut(`/toggleuser/${id}`)
 }
 
 export const updateUserRole = (id, role) => {
-  return apiPatch(`/api/users/${id}/role`, { role })
+  return apiPut(`/edituser/${id}`, { role })
 }
