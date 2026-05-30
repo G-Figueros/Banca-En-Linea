@@ -1,13 +1,13 @@
 import { apiGet, apiPost } from './http.service'
 
 export const getMyTransfers = () => {
-  return apiGet('/api/transfers/my')
+  return apiGet('/alltransferencias')
 }
 
 export const getTransferById = (id) => {
-  return apiGet(`/api/transfers/${id}`)
+  return apiGet(`/transferencia/${id}`)
 }
 
 export const createTransfer = (transfer) => {
-  return apiPost('/api/transfers', transfer)
+  return apiPost('/createtransferencia', transfer)
 }

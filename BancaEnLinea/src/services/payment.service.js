@@ -1,13 +1,21 @@
-import { apiGet, apiPost } from './http.service'
+import { apiGet, apiPost, apiPut } from './http.service'
 
 export const getMyPayments = () => {
-  return apiGet('/api/loan-payments/my')
+  return apiGet('/allpagos')
 }
 
 export const getAllPayments = () => {
-  return apiGet('/api/loan-payments')
+  return apiGet('/allpagos')
 }
 
 export const createLoanPayment = (payment) => {
-  return apiPost('/api/loan-payments', payment)
+  return apiPost('/createpago', payment)
+}
+
+export const updatePayment = (id, payment) => {
+  return apiPut(`/editpago/${id}`, payment)
+}
+
+export const togglePayment = (id) => {
+  return apiPut(`/togglepago/${id}`)
 }

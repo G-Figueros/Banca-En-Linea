@@ -1,29 +1,33 @@
-import { apiGet, apiPost } from './http.service'
+import { apiGet } from './http.service'
 
 export const getSummaryReport = () => {
-  return apiGet('/api/reports/summary')
+  return apiGet('/allreportes')
 }
 
 export const getLoansReport = () => {
-  return apiGet('/api/reports/loans')
+  return apiGet('/reporte/prestamos')
 }
 
 export const getArrearsReport = () => {
-  return apiGet('/api/reports/arrears')
+  return apiGet('/reporte/pagos')
 }
 
 export const getTransfersReport = () => {
-  return apiGet('/api/reports/transfers')
+  return apiGet('/reporte/transferencias')
 }
 
 export const getPaymentsReport = () => {
-  return apiGet('/api/reports/payments')
+  return apiGet('/reporte/pagos')
+}
+
+export const getUsersReport = () => {
+  return apiGet('/reporte/usuarios')
 }
 
 export const calculateArrears = () => {
-  return apiPost('/api/arrears/calculate', {})
+  throw new Error('No hay endpoint backend para calcular moras')
 }
 
 export const getArrears = () => {
-  return apiGet('/api/arrears')
+  return apiGet('/reporte/pagos')
 }
