@@ -1,0 +1,51 @@
+name: Frontend CI/CD - Banca En Linea
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  frontend-quality:
+    name: Lint, Test, Coverage and Build
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: BancaEnLinea
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: BancaEnLinea/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint / Static analysis
+        run: npm run lint
+
+      - name: Unit tests with coverage
+        run: npm run test:coverage
+
+      - name: Build React Vite app
+        run: npm run build
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-coverage-report
+          path: BancaEnLinea/coverage/
