@@ -1,9 +1,0 @@
-.login-page {
-  max-width: 400px;
-  margin: 2rem auto;
-}
-
-.login-page form {
-  display: grid;
-  gap: 1rem;
-}
