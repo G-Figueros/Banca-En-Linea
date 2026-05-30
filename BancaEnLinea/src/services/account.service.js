@@ -5,21 +5,21 @@ export const getMyAccounts = () => {
 }
 
 export const getAllAccounts = () => {
-  return apiGet('/api/accounts')
+  return apiGet('/allcuentas')
 }
 
 export const getAccountById = (id) => {
-  return apiGet(`/api/accounts/${id}`)
+  return apiGet(`/api/Cuentas/cuenta/${id}`)
 }
 
-export const getAccountMovements = (id) => {
-  return apiGet(`/api/accounts/${id}/movements`)
+export const getAccountMovements = () => {
+  return apiGet('/allmovimientoscuenta')
 }
 
 export const createAccount = (account) => {
-  return apiPost('/api/accounts', account)
+  return apiPost('/createcuenta', account)
 }
 
 export const updateAccountStatus = (id, status) => {
-  return apiPatch(`/api/accounts/${id}/status`, { status })
+  return apiPatch(`/cuenta/${id}/status`, { status })
 }

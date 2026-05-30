@@ -10,7 +10,7 @@ function Transfer() {
 
   const [form, setForm] = useState({
     idCuentaOrigen: '',
-    numeroCuentaDestino: '',
+    idCuentaDestino: '',
     monto: '',
     descripcion: ''
   })
@@ -44,23 +44,31 @@ function Transfer() {
     setError('')
 
     try {
-      await createTransfer({
+      const payload = {
+        idTransferencia: 0,
         idCuentaOrigen: Number(form.idCuentaOrigen),
-        numeroCuentaDestino: form.numeroCuentaDestino,
+        idCuentaDestino: Number(form.idCuentaDestino),
         monto: Number(form.monto),
-        descripcion: form.descripcion
-      })
+        descripcion: form.descripcion,
+        fechaTransferencia: new Date().toISOString(),
+        estado: 'REALIZADA',
+        referencia: `TRX-${Date.now()}`
+      }
+
+      await createTransfer(payload)
 
       setMessage('Transferencia realizada correctamente.')
       setForm({
         idCuentaOrigen: '',
-        numeroCuentaDestino: '',
+        idCuentaDestino: '',
         monto: '',
         descripcion: ''
       })
+
       loadData()
-    } catch {
-      setError('No fue posible realizar la transferencia. Verifique saldo y cuenta destino.')
+    } catch (err) {
+      console.error(err)
+      setError('No fue posible realizar la transferencia. Verifique saldo, cuenta origen y cuenta destino.')
     }
   }
 
@@ -77,23 +85,46 @@ function Transfer() {
 
           <form onSubmit={handleSubmit} className="form">
             <label>Cuenta origen</label>
-            <select name="idCuentaOrigen" value={form.idCuentaOrigen} onChange={handleChange} required>
-              <option value="">Seleccione una cuenta</option>
-              {accounts.map((account) => (
-                <option key={account.idCuenta || account.id_cuenta} value={account.idCuenta || account.id_cuenta}>
-                  {account.numeroCuenta || account.numero_cuenta} - Q {Number(account.saldoActual || account.saldo_actual || 0).toFixed(2)}
-                </option>
-              ))}
+            <select
+              name="idCuentaOrigen"
+              value={form.idCuentaOrigen}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Seleccione una cuenta origen</option>
+              {accounts.map((account) => {
+                const id = account.idCuenta || account.id_cuenta
+                const numero = account.numeroCuenta || account.numero_cuenta
+                const saldo = account.saldoActual || account.saldo_actual || 0
+
+                return (
+                  <option key={id} value={id}>
+                    {numero} - Q {Number(saldo).toFixed(2)}
+                  </option>
+                )
+              })}
             </select>
 
             <label>Cuenta destino</label>
-            <input
-              name="numeroCuentaDestino"
-              value={form.numeroCuentaDestino}
+            <select
+              name="idCuentaDestino"
+              value={form.idCuentaDestino}
               onChange={handleChange}
-              placeholder="Número de cuenta destino"
               required
-            />
+            >
+              <option value="">Seleccione una cuenta destino</option>
+              {accounts.map((account) => {
+                const id = account.idCuenta || account.id_cuenta
+                const numero = account.numeroCuenta || account.numero_cuenta
+                const saldo = account.saldoActual || account.saldo_actual || 0
+
+                return (
+                  <option key={id} value={id}>
+                    {numero} - Q {Number(saldo).toFixed(2)}
+                  </option>
+                )
+              })}
+            </select>
 
             <label>Monto</label>
             <input
@@ -102,6 +133,7 @@ function Transfer() {
               value={form.monto}
               onChange={handleChange}
               min="1"
+              step="0.01"
               required
             />
 
@@ -136,8 +168,8 @@ function Transfer() {
             <tbody>
               {transfers.map((transfer) => (
                 <tr key={transfer.idTransferencia || transfer.id_transferencia}>
-                  <td>{transfer.cuentaOrigen || transfer.cuenta_origen}</td>
-                  <td>{transfer.cuentaDestino || transfer.cuenta_destino}</td>
+                  <td>{transfer.idCuentaOrigen || transfer.id_cuenta_origen}</td>
+                  <td>{transfer.idCuentaDestino || transfer.id_cuenta_destino}</td>
                   <td>Q {Number(transfer.monto || 0).toFixed(2)}</td>
                   <td>{transfer.estado}</td>
                 </tr>
