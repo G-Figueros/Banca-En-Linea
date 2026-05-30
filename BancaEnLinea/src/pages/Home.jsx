@@ -35,7 +35,7 @@ function Home() {
 
   return (
     <div>
-      <h2 className="page-title">Panel principal</h2>
+      <h2 className="page-title">Panel principal - DEMO EN VIVO</h2>
 
       {error && <div className="alert alert-error">{error}</div>}
 
